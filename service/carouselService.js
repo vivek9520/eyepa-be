@@ -36,13 +36,21 @@ module.exports.getCarousel = (req, res, next) => {
 
 module.exports.addCarousel = async (req, res, next) => {
   try {
-    const carousel = new carouselModel({
+    const carousel = await carouselModel.create({
       title: req.body.title,
       subTitle: req.body.subTitle,
       imgUrl: req.body.imgUrl,
     });
 
-    const response = await carousel.create();
-    console.log(response);
-  } catch (error) {}
+    res.status(201).json({
+      status: "success",
+      data: carousel,
+    });
+
+    console.log(carousel);
+  } catch (error) {
+    res.status(400).json({
+      status: "failure",
+    });
+  }
 };
